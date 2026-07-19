@@ -61,9 +61,9 @@ font-weight:bold;
 color:#0D47A1;
 font-family:Georgia,serif;
 width:78%;
-text-align:center;white-space:nowrap;
+text-align:center;
+white-space:nowrap;
 overflow:hidden;
-}  
 }
 </style>
 </head>
@@ -72,55 +72,54 @@ overflow:hidden;
 
 <h2>Convocation Poster Generator</h2>
 
-<input type="text" id="username" placeholder="Enter your name">
+<input type="text" id="username" placeholder="Enter your name" oninput="showName()">
 
 <br>
 
 <button onclick="showName()">Show Name</button>
-
 <button onclick="downloadImage()">Download Image</button>
 
 <div id="poster">
-
 <img src="poster.png">
-
 <div id="name"></div>
-
 </div>
 
 <script>
 
-function showName(){
-const nameDiv = document.getElementById("name");
+function showName() {
+    const nameDiv = document.getElementById("name");
     const text = document.getElementById("username").value.trim();
 
     nameDiv.innerHTML = text;
 
-    // Start with large font
     let size = 42;
     nameDiv.style.fontSize = size + "px";
 
-    // Reduce font until it fits
     while (nameDiv.scrollWidth > nameDiv.clientWidth && size > 20) {
         size--;
         nameDiv.style.fontSize = size + "px";
     }
-}document.getElementById("name").innerHTML=
-document.getElementById("username").value;
-
 }
 
-function downloadImage(){
+function downloadImage() {
 
-html2canvas(document.getElementById("poster")).then(function(canvas){
+const input=document.getElementById("username");
+const buttons=document.querySelectorAll("button");
 
-var link=document.createElement("a");
+input.style.display="none";
+buttons.forEach(btn=>btn.style.display="none");
 
+html2canvas(document.getElementById("poster"),{
+scale:3
+}).then(function(canvas){
+
+const link=document.createElement("a");
 link.download="convocation.png";
-
-link.href=canvas.toDataURL();
-
+link.href=canvas.toDataURL("image/png");
 link.click();
+
+input.style.display="inline-block";
+buttons.forEach(btn=>btn.style.display="inline-block");
 
 });
 
