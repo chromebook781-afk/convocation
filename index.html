@@ -3,35 +3,49 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Convocation Poster Generator</title>
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
 <style>
-body{
+
+*{
 margin:0;
-padding:20px;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+background:#eef4ff;
 font-family:Arial,sans-serif;
-background:#f5f5f5;
 text-align:center;
+padding:20px;
+}
+
+h2{
+color:#0D47A1;
+margin-bottom:20px;
 }
 
 input{
+width:320px;
+max-width:90%;
 padding:12px;
-width:300px;
 font-size:18px;
+border:2px solid #1565C0;
 border-radius:8px;
-border:1px solid #ccc;
+outline:none;
 }
 
 button{
-padding:12px 20px;
+margin:10px 5px;
+padding:12px 22px;
 font-size:17px;
-margin:10px;
 border:none;
 border-radius:8px;
 background:#1565C0;
-color:white;
+color:#fff;
 cursor:pointer;
 }
 
@@ -56,46 +70,56 @@ position:absolute;
 top:88%;
 left:50%;
 transform:translate(-50%,-50%);
+width:68%;
+text-align:center;
 font-size:42px;
 font-weight:bold;
-color:#0D47A1;
 font-family:Georgia,serif;
-width:78%;
-text-align:center;
+color:#0D47A1;
 white-space:nowrap;
 overflow:hidden;
 }
+
 </style>
+
 </head>
 
 <body>
 
 <h2>Convocation Poster Generator</h2>
 
-<input type="text" id="username" placeholder="Enter your name" oninput="showName()">
+<input
+type="text"
+id="username"
+placeholder="Enter your name"
+oninput="showName()">
 
 <br>
 
 <button onclick="showName()">Show Name</button>
+
 <button onclick="downloadImage()">Download Image</button>
 
 <div id="poster">
-<img src="poster.png">
+
+<img src="poster.png" alt="Poster">
+
 <div id="name"></div>
 </div>
 
 <script>
 
 function showName() {
+
     const nameDiv = document.getElementById("name");
     const text = document.getElementById("username").value.trim();
 
-    nameDiv.innerHTML = text;
+    nameDiv.innerText = text;
 
     let size = 42;
     nameDiv.style.fontSize = size + "px";
 
-    while (nameDiv.scrollWidth > nameDiv.clientWidth && size > 20) {
+    while (nameDiv.scrollWidth > nameDiv.clientWidth && size > 18) {
         size--;
         nameDiv.style.fontSize = size + "px";
     }
@@ -103,26 +127,25 @@ function showName() {
 
 function downloadImage() {
 
-const input=document.getElementById("username");
-const buttons=document.querySelectorAll("button");
+    const input = document.getElementById("username");
+    const buttons = document.querySelectorAll("button");
 
-input.style.display="none";
-buttons.forEach(btn=>btn.style.display="none");
+    input.style.display = "none";
+    buttons.forEach(btn => btn.style.display = "none");
 
-html2canvas(document.getElementById("poster"),{
-scale:3
-}).then(function(canvas){
+    html2canvas(document.getElementById("poster"), {
+        scale: 3,
+        useCORS: true
+    }).then(function(canvas){
 
-const link=document.createElement("a");
-link.download="convocation.png";
-link.href=canvas.toDataURL("image/png");
-link.click();
+        const link = document.createElement("a");
+        link.download = "convocation.png";
+        link.href = canvas.toDataURL("image/png");
+        link.click();
 
-input.style.display="inline-block";
-buttons.forEach(btn=>btn.style.display="inline-block");
-
-});
-
+        input.style.display = "inline-block";
+        buttons.forEach(btn => btn.style.display = "inline-block");
+    });
 }
 
 </script>
